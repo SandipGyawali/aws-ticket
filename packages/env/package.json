@@ -1,0 +1,19 @@
+{
+  "name": "@aws-ticket/env",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./server": "./server.ts",
+    "./client": "./client.ts"
+  },
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "@aws-ticket/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
