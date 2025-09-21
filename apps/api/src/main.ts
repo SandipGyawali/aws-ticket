@@ -8,6 +8,7 @@ import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
+import { CsvToJsonService } from "./services/csv2json.service.ts";
 
 @Injectable()
 class App {
@@ -18,10 +19,16 @@ class App {
     this.main();
   }
 
-  private main(): void {
-    this.middlewares();
-    this.config();
-    this.routes();
+  private async main(): void {
+    // this.middlewares();
+    // this.config();
+    // this.routes();
+    const csvString = `name,age,city
+      Alice,25,London
+      Bob,30,New York`;
+    const service = new CsvToJsonService();
+    const data = await service.parse(csvString);
+    console.log(data);
   }
 
   private config(): void {
