@@ -10,13 +10,16 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/hpp": "^0.2.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
-    "@types/papaparse": "^5.3.16"
+    "@types/papaparse": "^5.3.16",
+    "@types/pg": "^8.15.5"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.5",
@@ -24,8 +27,11 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
+    "jose": "^6.1.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1",
     "papaparse": "^5.5.3",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0",
     "typedi": "^0.10.0"

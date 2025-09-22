@@ -3,6 +3,7 @@ import Papa from "papaparse";
 
 @Service()
 export class CsvToJsonService {
+  static NAME = "CsvToJsonService";
   constructor() {}
 
   /**

@@ -1,14 +1,13 @@
 import "reflect-metadata";
 import "dotenv/config";
-import express, { Router, type Application } from "express";
+import express, { type Application } from "express";
 import { ENVIRONMENT } from "@aws-ticket/env/server";
 import { Container, Injectable } from "./helpers/helpers.di.ts";
-// import { AppModule } from "./app.module.ts";
 import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
-import { CsvToJsonService } from "./services/csv2json.service.ts";
+import { AppModule } from "./app.module.ts";
 
 @Injectable()
 class App {
@@ -19,21 +18,15 @@ class App {
     this.main();
   }
 
-  private async main(): void {
-    // this.middlewares();
-    // this.config();
-    // this.routes();
-    const csvString = `name,age,city
-      Alice,25,London
-      Bob,30,New York`;
-    const service = new CsvToJsonService();
-    const data = await service.parse(csvString);
-    console.log(data);
+  private async main() {
+    this.middlewares();
+    this.config();
+    this.routes();
   }
 
   private config(): void {
     this.app.disable("x-powered-by");
-    // Container.resolve<AppModule>(AppModule);
+    Container.resolve<AppModule>(AppModule);
   }
 
   private middlewares() {
