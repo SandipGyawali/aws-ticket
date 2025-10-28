@@ -11,6 +11,9 @@ const user = createTable("user", (t) => ({
   username: t.text().notNull(),
   email: t.text().unique().notNull(),
   email_verified: t.text().notNull(),
+  password: t.text(),
+  access_token: t.text(),
+  refresh_token: t.text(),
   create_at: t.timestamp().defaultNow(),
   updated_at: t
     .timestamp()
