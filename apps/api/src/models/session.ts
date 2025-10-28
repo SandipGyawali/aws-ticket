@@ -41,4 +41,7 @@ const userSession = createTable("user_session", (t) => ({
   created_at: t.timestamp().defaultNow(),
 }));
 
-export { userSession };
+const userSessionInsertSchema = createInsertSchema(userSession);
+const userSessionUpdateSchema = createSelectSchema(userSession);
+
+export { userSession, userSessionInsertSchema, userSessionUpdateSchema };

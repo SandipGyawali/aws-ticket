@@ -13,6 +13,7 @@
   "devDependencies": {
     "@aws-ticket/typescript-config": "*",
     "@aws-ticket/eslint-config": "*",
+    "@aws-ticket/utils": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
@@ -20,6 +21,9 @@
     "typescript": "5.9.2"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "react": "^19.1.0",

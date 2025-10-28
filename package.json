@@ -23,6 +23,8 @@
   ],
   "dependencies": {
     "@react-email/components": "^0.5.7",
+    "@tabler/icons-react": "^3.35.0",
+    "lucide-react": "^0.548.0",
     "zod": "^4.1.11"
   }
 }

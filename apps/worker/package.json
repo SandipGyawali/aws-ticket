@@ -1,0 +1,17 @@
+{
+    "name": "@aws-ticket/worker",
+    "module": ".",
+    "type": "module",
+    "scripts": {
+        ".": "./index.ts"
+    },
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "bullmq": "^5.61.0"
+    }
+}

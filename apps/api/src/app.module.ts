@@ -2,6 +2,7 @@ import { Container, Injectable, Module } from "./helpers/helpers.di";
 import { Database } from "./lib/database";
 import { CsvToJsonModule } from "./modules/csv2json.module";
 import { JwtModule } from "./modules/jwt.module";
+import { SessionModule } from "./modules/session.module";
 
 @Module([
   {
@@ -21,6 +22,10 @@ import { JwtModule } from "./modules/jwt.module";
     useFactory: () => {
       return Container.resolve(Database).getClient();
     },
+  },
+  {
+    token: SessionModule.NAME,
+    useFactory: () => Container.resolve(SessionModule).route.configure(),
   },
 ])
 @Injectable()

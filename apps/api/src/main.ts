@@ -8,6 +8,7 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import { AppModule } from "./app.module.ts";
+import { appRoutes } from "./app.routes.ts";
 
 @Injectable()
 class App {
@@ -54,7 +55,9 @@ class App {
     }
   }
 
-  private routes(): void {}
+  private routes(): void {
+    appRoutes(this.app);
+  }
 
   public listen() {
     this.app.listen(ENVIRONMENT.PORT, (err) => {
