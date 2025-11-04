@@ -30,7 +30,7 @@ export function AppSidebar({
   };
 } & React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -39,16 +39,16 @@ export function AppSidebar({
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="/">
-                <IconInnerShadowTop className="!size-5 text-primary" />
-                <span className="text-base font-extrabold text-primary">
-                  AWS-Ticket
+                <img src="/logo.webp" className="w-10 h-10" alt="logo" />
+                <span className="uppercase text-base font-extrabold text-primary">
+                  AWS Ticket
                 </span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="mt-4">
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>

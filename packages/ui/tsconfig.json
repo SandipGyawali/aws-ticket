@@ -3,6 +3,12 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+    "../lib/index.ts",
+    "src/data-table/lib/data-table.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

@@ -23,6 +23,7 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
+                className="cursor-pointer"
                 // onClick={() => navigate({ to: item.url })}
                 tooltip={item.title}
               >

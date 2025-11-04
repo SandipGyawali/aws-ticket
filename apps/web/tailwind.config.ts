@@ -1,5 +1,5 @@
-import { sharedMainConfig } from "@aws-ticket/tailwind-config";
+import { sharedMainConfig } from '@aws-ticket/tailwind-config'
 
 export default {
   ...sharedMainConfig,
-};
+}
