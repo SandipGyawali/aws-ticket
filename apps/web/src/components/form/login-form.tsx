@@ -7,8 +7,17 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'form'>) {
+  function onSubmit(e) {
+    e.preventDefault()
+    console.log('Hello')
+  }
+
   return (
-    <form className={cn('flex flex-col gap-6', className)} {...props}>
+    <form
+      onSubmit={onSubmit}
+      className={cn('flex flex-col gap-6', className)}
+      {...props}
+    >
       <FieldGroup>
         <div className="flex flex-col items-start gap-1 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>

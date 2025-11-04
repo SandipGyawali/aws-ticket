@@ -9,18 +9,17 @@ export class SessionController {
 
   constructor(
     @Inject(SessionService.NAME)
-    private readonly controller: SessionController
+    private readonly service: SessionService
   ) {}
 
   public async get(req: Request, res: Response) {
-    const response = {
-      success: true,
-      data: [
-        {
-          title: "THis is session data",
-        },
-      ],
-    };
+    const response = this.service.get({
+      page: 1,
+      perPage: 10,
+      search: "",
+      sort: [],
+      createdAt: [],
+    });
 
     res.status(HttpStatusCode.OK_200).json(response);
   }

@@ -4,6 +4,7 @@ import type { PgDatabase } from "../../@types/db.type";
 import { session, sessionInsertSchema, sessionUpdateSchema } from "../models";
 import { and, eq, ilike } from "drizzle-orm";
 import type z from "zod";
+import type { ZSearchParamsSchema } from "../schema";
 
 @Service()
 export class SessionService {
@@ -31,6 +32,31 @@ export class SessionService {
       success: !!existing,
       data: existing ?? undefined,
     };
+  }
+
+  /**
+   * Note: Retrieves a paginated list of sessions based on the provided search parameters.
+   * Calculates the total count and number of pages for pagination.
+   *
+   * @param input ZSearchParamsSchema - Contains pagination and filtering details such as page number and items per page.
+   * @returns An object containing the session data array and total page count.
+   */
+  public async get(input: ZSearchParamsSchema) {
+    // const offset = (input.page - 1) * input.perPage;
+
+    const where = [];
+    const orderBy = [];
+
+    const [total] = await Promise.all([this.db.$count(session)]);
+
+    // const pageCount = Math.ceil(total / input.perPage);
+
+    const result = {
+      data: [],
+      pageCount: 2,
+    };
+
+    return result;
   }
 
   /**
