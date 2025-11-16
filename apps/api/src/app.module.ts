@@ -6,7 +6,7 @@ import { SessionModule } from "./modules/session.module";
 
 @Module([
   {
-    token: JwtModule.NAME,
+    token: CsvToJsonModule.NAME,
     useFactory: () => {
       return Container.resolve(CsvToJsonModule);
     },
