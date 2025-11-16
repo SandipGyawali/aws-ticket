@@ -9,23 +9,22 @@ export const sessionChoiceEnum = pgEnum("session_choice", [
   "Workshop",
 ]);
 
-const attendees = createTable("user", (t) => ({
+const attendees = createTable("attendees", (t) => ({
   user_id: t
     .uuid()
     .$defaultFn(() => crypto.randomUUID())
     .primaryKey(),
   first_name: t.text().notNull(),
   last_name: t.text().notNull(),
+  email: t.text().notNull().unique(),
   phone: t.text(),
-  food_preference: t.text().notNull(),
-  session_choice: t.text().notNull(),
+  food_preference: t.text(),
+  session_choice: t.text(),
   checked_in: t.boolean().notNull().default(false),
   check_in_time: t.timestamp(),
-  lunch: t.boolean().notNull().default(false),
-  lunch2: t.boolean().notNull().default(false),
-  email: t.text().notNull(),
+  lunch: t.boolean().default(false),
+  lunch2: t.boolean().default(false),
   created_at: t.timestamp().defaultNow(),
-  verified: t.boolean().notNull().default(false),
   updated_at: t
     .timestamp()
     .defaultNow()

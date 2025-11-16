@@ -3,6 +3,7 @@ import { Database } from "./lib/database";
 import { CsvToJsonModule } from "./modules/csv2json.module";
 import { JwtModule } from "./modules/jwt.module";
 import { SessionModule } from "./modules/session.module";
+import { UploadModule } from "./modules/upload.module";
 
 @Module([
   {
@@ -20,13 +21,21 @@ import { SessionModule } from "./modules/session.module";
   {
     token: Database.NAME,
     useFactory: () => {
-      return Container.resolve(Database).getClient();
+      return Container.resolve(Database);
     },
   },
   {
     token: SessionModule.NAME,
     useFactory: () => Container.resolve(SessionModule).route.configure(),
   },
+  {
+    token: UploadModule.NAME,
+    useFactory: () => Container.resolve(UploadModule).route.configure(),
+  },
 ])
 @Injectable()
-export class AppModule {}
+export class AppModule {
+  constructor(){
+    
+  }
+}
