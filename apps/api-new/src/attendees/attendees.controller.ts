@@ -2,10 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AttendeesService } from './attendees.service';
 import { CreateAttendeeDto } from './dto/create-attendee.dto';
 import { UpdateAttendeeDto } from './dto/update-attendee.dto';
+import { Roles } from 'src/auth';
+import { ROLE } from 'src/users/entities/user.entity';
 
 @Controller('attendees')
+@Roles(ROLE.VOLUNTEER)
 export class AttendeesController {
-  constructor(private readonly attendeesService: AttendeesService) {}
+  constructor(private readonly attendeesService: AttendeesService) { }
 
   @Post()
   create(@Body() createAttendeeDto: CreateAttendeeDto) {

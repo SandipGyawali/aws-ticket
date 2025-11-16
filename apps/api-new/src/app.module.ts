@@ -7,6 +7,7 @@ import { AttendeesModule } from './attendees/attendees.module';
 import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { JwtModule } from "@nestjs/jwt"
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -44,7 +45,8 @@ import { JwtModule } from "@nestjs/jwt"
 
     AttendeesModule,
     UsersModule,
-    CommonModule
+    CommonModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

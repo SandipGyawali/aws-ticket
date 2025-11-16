@@ -24,16 +24,16 @@ export class Attendee {
   })
   session_choice: string[]
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   checked_in: boolean
 
-  @Column("timestamp")
+  @Column({ type: "timestamptz", nullable: true })
   check_in_time: Date
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   lunch: boolean
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   lunch2: boolean
 
   @CreateDateColumn()

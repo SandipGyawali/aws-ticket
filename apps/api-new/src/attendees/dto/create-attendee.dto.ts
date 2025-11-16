@@ -26,6 +26,7 @@ export class CreateAttendeeDto {
 
   @ApiProperty({ default: false })
   @IsBoolean()
+  @IsOptional()
   checked_in: boolean
 
   @ApiProperty({
@@ -35,10 +36,12 @@ export class CreateAttendeeDto {
   check_in_time: string
   
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ default: false })
+  @IsBoolean()
   lunch: boolean
 
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ default: false })
+  @IsBoolean()
   lunch2: boolean
 }
