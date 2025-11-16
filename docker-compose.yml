@@ -1,0 +1,32 @@
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: aws-ticket-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - aws-ticket-network
+  redis:
+    container_name: aws-ticket-redis
+    image: valkey/valkey:8.1.3-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - default
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  aws-ticket-network:
