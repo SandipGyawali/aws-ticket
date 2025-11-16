@@ -1,11 +1,19 @@
 import { ENVIRONMENT } from "@aws-ticket/env/server";
 import { Service } from "../helpers/helpers.di";
 import jwt, { type JwtPayload, type SignOptions } from "jsonwebtoken";
+import { RedisClient } from "bun";
+import { redis as libRedis } from "../lib/redis";
+import { randomBytes } from "crypto"
 
 @Service()
 export class JwtService {
   static NAME = "JwtService";
-  constructor() {}
+   
+  private redis: Bun.RedisClient;
+
+  constructor(redis: RedisClient) {
+    this.redis = libRedis;
+  }
 
   signAccessToken(payload: JwtPayload) {
     const accessToken = this.sign(
@@ -16,12 +24,14 @@ export class JwtService {
     return accessToken;
   }
 
-  signRefreshToken(payload: JwtPayload) {
+  async signRefreshToken(payload: JwtPayload) {
     const refreshToken = this.sign(
       { type: "refresh_token", ...payload },
       ENVIRONMENT.JWT_REFRESH_SECRET,
       { expiresIn: "1d" }
     );
+    await this.redis.set(`refresh_tokens:${refreshToken}`, refreshToken, "EX", ENVIRONMENT.EXPIRY_MS);
+    return refreshToken;
   }
 
   sign(payload: JwtPayload, secret: string, options?: SignOptions) {
