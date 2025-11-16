@@ -12,6 +12,9 @@
     "check": "prettier --write . && eslint --fix"
   },
   "dependencies": {
+    "@aws-ticket/queries": "*",
+    "@aws-ticket/tailwind-config": "*",
+    "@aws-ticket/ui": "*",
     "@faker-js/faker": "^10.0.0",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/match-sorter-utils": "^8.19.4",
@@ -25,15 +28,13 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.544.0",
+    "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.6",
     "tw-animate-css": "^1.3.6",
-    "vite-tsconfig-paths": "^5.1.4",
-    "@aws-ticket/tailwind-config": "*",
-    "@aws-ticket/ui": "*",
-    "@aws-ticket/queries": "*"
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
     "@tanstack/eslint-config": "^0.3.0",

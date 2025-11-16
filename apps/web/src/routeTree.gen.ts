@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as applicationRouteRouteImport } from './routes/(application)/route'
 import { Route as applicationIndexRouteImport } from './routes/(application)/index'
 import { Route as authPagesLoginIndexRouteImport } from './routes/(auth-pages)/login/index'
+import { Route as applicationUploadsIndexRouteImport } from './routes/(application)/uploads/index'
 import { Route as applicationSessionsIndexRouteImport } from './routes/(application)/sessions/index'
 import { Route as applicationAttendeesIndexRouteImport } from './routes/(application)/attendees/index'
 
@@ -28,6 +29,11 @@ const authPagesLoginIndexRoute = authPagesLoginIndexRouteImport.update({
   id: '/(auth-pages)/login/',
   path: '/login/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const applicationUploadsIndexRoute = applicationUploadsIndexRouteImport.update({
+  id: '/uploads/',
+  path: '/uploads/',
+  getParentRoute: () => applicationRouteRoute,
 } as any)
 const applicationSessionsIndexRoute =
   applicationSessionsIndexRouteImport.update({
@@ -46,12 +52,14 @@ export interface FileRoutesByFullPath {
   '/': typeof applicationIndexRoute
   '/attendees': typeof applicationAttendeesIndexRoute
   '/sessions': typeof applicationSessionsIndexRoute
+  '/uploads': typeof applicationUploadsIndexRoute
   '/login': typeof authPagesLoginIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof applicationIndexRoute
   '/attendees': typeof applicationAttendeesIndexRoute
   '/sessions': typeof applicationSessionsIndexRoute
+  '/uploads': typeof applicationUploadsIndexRoute
   '/login': typeof authPagesLoginIndexRoute
 }
 export interface FileRoutesById {
@@ -60,19 +68,21 @@ export interface FileRoutesById {
   '/(application)/': typeof applicationIndexRoute
   '/(application)/attendees/': typeof applicationAttendeesIndexRoute
   '/(application)/sessions/': typeof applicationSessionsIndexRoute
+  '/(application)/uploads/': typeof applicationUploadsIndexRoute
   '/(auth-pages)/login/': typeof authPagesLoginIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/attendees' | '/sessions' | '/login'
+  fullPaths: '/' | '/attendees' | '/sessions' | '/uploads' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/attendees' | '/sessions' | '/login'
+  to: '/' | '/attendees' | '/sessions' | '/uploads' | '/login'
   id:
     | '__root__'
     | '/(application)'
     | '/(application)/'
     | '/(application)/attendees/'
     | '/(application)/sessions/'
+    | '/(application)/uploads/'
     | '/(auth-pages)/login/'
   fileRoutesById: FileRoutesById
 }
@@ -104,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authPagesLoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(application)/uploads/': {
+      id: '/(application)/uploads/'
+      path: '/uploads'
+      fullPath: '/uploads'
+      preLoaderRoute: typeof applicationUploadsIndexRouteImport
+      parentRoute: typeof applicationRouteRoute
+    }
     '/(application)/sessions/': {
       id: '/(application)/sessions/'
       path: '/sessions'
@@ -125,12 +142,14 @@ interface applicationRouteRouteChildren {
   applicationIndexRoute: typeof applicationIndexRoute
   applicationAttendeesIndexRoute: typeof applicationAttendeesIndexRoute
   applicationSessionsIndexRoute: typeof applicationSessionsIndexRoute
+  applicationUploadsIndexRoute: typeof applicationUploadsIndexRoute
 }
 
 const applicationRouteRouteChildren: applicationRouteRouteChildren = {
   applicationIndexRoute: applicationIndexRoute,
   applicationAttendeesIndexRoute: applicationAttendeesIndexRoute,
   applicationSessionsIndexRoute: applicationSessionsIndexRoute,
+  applicationUploadsIndexRoute: applicationUploadsIndexRoute,
 }
 
 const applicationRouteRouteWithChildren =
