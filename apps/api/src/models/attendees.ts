@@ -25,6 +25,7 @@ const attendees = createTable("user", (t) => ({
   lunch2: t.boolean().notNull().default(false),
   email: t.text().notNull(),
   created_at: t.timestamp().defaultNow(),
+  verified: t.boolean().notNull().default(false),
   updated_at: t
     .timestamp()
     .defaultNow()
@@ -35,5 +36,6 @@ export type AttendeesSchema = ExtractSchema<typeof attendees>;
 
 const attendeesInsertSchema = createInsertSchema(attendees);
 const attendeesSelectSchema = createSelectSchema(attendees);
+
 
 export { attendees, attendeesInsertSchema, attendeesSelectSchema };

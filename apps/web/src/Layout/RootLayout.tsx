@@ -38,7 +38,7 @@ export function RootLayout() {
       },
       {
         title: 'Uploads',
-        url: '/',
+        url: '/uploads',
         icon: IconFile,
       },
     ],

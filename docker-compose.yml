@@ -1,7 +1,7 @@
 
 services:
   postgres:
-    image: pgvector/pgvector:pg17
+    image: postgres
     container_name: aws-ticket-postgres
     restart: always
     environment:
