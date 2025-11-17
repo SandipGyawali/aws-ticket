@@ -42,6 +42,11 @@ export class AttendeesController {
     return this.attendeesService.isCheckedIn(+id)
   }
 
+  @Post('/resendTicket/:id')
+  resendTicket(@Param('id') id: string) {
+    return this.attendeesService.generateAndEmailTicket(+id)
+  }
+
   @Post('/checkin/:id')
   checkIn(@Param('id') id: string) {
     return this.attendeesService.checkIn(+id)

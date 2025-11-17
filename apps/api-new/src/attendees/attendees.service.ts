@@ -25,7 +25,10 @@ export class AttendeesService {
     const ticketQr = await this.ticketService.generateTickerQR(attendee)
 
     // TODO: Implement SQS and SES here
-    await this.emailService.sendTicketMail(attendee, ticketQr)
+    const ticketInfo = await this.emailService.sendTicketMail(attendee, ticketQr)
+    return {
+      sentTo: ticketInfo.accepted
+    }
   }
 
   async findAll() {
