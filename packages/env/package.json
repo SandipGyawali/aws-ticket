@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {},
   "devDependencies": {
-    "@aws-ticket/typescript-config": "*"
+    "@aws-ticket/typescript-config": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5"

@@ -6,12 +6,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types",
-    "db:generate": "bunx drizzle-kit generate",
-    "db:push": "bunx drizzle-kit push",
-    "db:studio": "bunx drizzle-kit studio",
-    "db:migrate": "bun run db:generate && bun run db:push",
-    "db:verify": "bun apps/api/verify-db.ts"
+    "check-types": "turbo run check-types"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
@@ -21,11 +16,7 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "bun@1.2.21",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@10.9.0",
   "dependencies": {
     "@react-email/components": "^0.5.7",
     "@tabler/icons-react": "^3.35.0",
