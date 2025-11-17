@@ -16,12 +16,16 @@ export class AttendeesService {
     const attendee = this.attendeeRepository.create(createAttendeeDto)
     const createdAttendee = await this.attendeeRepository.save(attendee)
 
-    const ticketQr = await this.ticketService.generateTickerQR(createdAttendee)
-    const emailInfo = await this.emailService.sendTicketMail(attendee, ticketQr)
-    return {
-      ...attendee,
-      emailInfo
-    }
+    await this.generateAndEmailTicket(createdAttendee.id)
+    return createdAttendee
+  }
+
+  async generateAndEmailTicket(id: number) {
+    const attendee = await this.findOne(id)
+    const ticketQr = await this.ticketService.generateTickerQR(attendee)
+
+    // TODO: Implement SQS and SES here
+    await this.emailService.sendTicketMail(attendee, ticketQr)
   }
 
   async findAll() {
@@ -29,14 +33,16 @@ export class AttendeesService {
   }
 
   async findOne(id: number) {
-    return this.attendeeRepository.findOneById(id)
-  }
 
-  async update(id: number, updateAttendeeDto: UpdateAttendeeDto) {
     const attendee = await this.attendeeRepository.findOneById(id)
     if (!attendee) {
       throw new NotFoundException(`User with id: ${id} not found`)
     }
+    return attendee
+  }
+
+  async update(id: number, updateAttendeeDto: UpdateAttendeeDto) {
+    const attendee = await this.findOne(id)
 
     Object.assign(attendee, updateAttendeeDto)
     return this.attendeeRepository.save(attendee)
@@ -44,19 +50,13 @@ export class AttendeesService {
   }
 
   async remove(id: number) {
-    const attendee = await this.attendeeRepository.findOneById(id)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${id} not found`)
-    }
+    const attendee = await this.findOne(id)
 
     return this.attendeeRepository.remove(attendee)
   }
 
   async checkIn(id: number) {
     const attendee = await this.findOne(id)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${id} not found`)
-    }
     if (attendee.checked_in == true) {
       return {
         success: false,
@@ -76,9 +76,6 @@ export class AttendeesService {
   async sessionCheckIn(sessionChekInDto: SessionCheckInDto) {
     const { userId, session } = sessionChekInDto;
     const attendee = await this.findOne(userId)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${userId} not found`)
-    }
 
     if (attendee.session_choice.includes(session)) {
       return {
@@ -97,9 +94,6 @@ export class AttendeesService {
 
   async isCheckedIn(id: number) {
     const attendee = await this.findOne(id)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${id} not found`)
-    }
     return {
       checkedIn: attendee.checked_in,
       checkedInTime: attendee.check_in_time
@@ -110,9 +104,6 @@ export class AttendeesService {
     const { userId, lunchId, value } = updateLunchDto;
     const validLunchIds = [1, 2]
     const attendee = await this.findOne(userId)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${userId} not found`)
-    }
     if (!validLunchIds.includes(lunchId)) {
       throw new NotFoundException(`Lunch: ${lunchId} not found`)
     }
@@ -147,8 +138,7 @@ export class AttendeesService {
 
     for (const createAttendeeDto of validRecords) {
       try {
-        const attendee = this.attendeeRepository.create(createAttendeeDto)
-        await this.attendeeRepository.insert(attendee)
+        await this.create(createAttendeeDto)
         insertedCount++
       } catch (insertError) {
         errors.push(insertError.detail)

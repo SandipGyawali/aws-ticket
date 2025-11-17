@@ -16,7 +16,7 @@ export class EmailService {
 
     const htmlContent = generateTicketEmailHtml(attendee, cid);
 
-    await this.transporter.sendMail({
+    return this.transporter.sendMail({
       to: attendee.email,
       subject: 'Ticket for AWS SCD Nepal 2025',
       html: htmlContent,
