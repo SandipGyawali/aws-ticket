@@ -5,14 +5,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Attendee } from './entities/attendee.entity';
 import { Repository } from 'typeorm';
 import Papa from "papaparse"
+import { TicketService } from 'src/ticket/ticket.service';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class AttendeesService {
-  constructor(@InjectRepository(Attendee) private attendeeRepository: Repository<Attendee>) { }
+  constructor(@InjectRepository(Attendee) private attendeeRepository: Repository<Attendee>, private ticketService: TicketService, private emailService: EmailService) { }
 
   async create(createAttendeeDto: CreateAttendeeDto) {
     const attendee = this.attendeeRepository.create(createAttendeeDto)
-    return this.attendeeRepository.save(attendee)
+    const createdAttendee = await this.attendeeRepository.save(attendee)
+
+    const ticketQr = await this.ticketService.generateTickerQR(createdAttendee)
+    const emailInfo = await this.emailService.sendTicketMail(attendee, ticketQr)
+    return {
+      ...attendee,
+      emailInfo
+    }
   }
 
   async findAll() {
@@ -56,6 +65,7 @@ export class AttendeesService {
     }
 
     attendee.checked_in = true;
+    attendee.check_in_time = new Date()
     await this.attendeeRepository.save(attendee)
     return {
       success: true,
@@ -85,13 +95,14 @@ export class AttendeesService {
     }
   }
 
-  async isCheckIn(id: number) {
+  async isCheckedIn(id: number) {
     const attendee = await this.findOne(id)
     if (!attendee) {
       throw new NotFoundException(`User with id: ${id} not found`)
     }
     return {
-      checkedIn: attendee.checked_in
+      checkedIn: attendee.checked_in,
+      checkedInTime: attendee.check_in_time
     }
   }
 

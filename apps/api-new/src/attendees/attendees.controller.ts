@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { FileInterceptor } from "@nestjs/platform-express"
 import { AttendeesService } from './attendees.service';
 import { CreateAttendeeDto } from './dto/create-attendee.dto';
-import { UpdateAttendeeDto } from './dto/update-attendee.dto';
+import { SessionCheckInDto, UpdateAttendeeDto, UpdateLunchDto } from './dto/update-attendee.dto';
 import { Roles } from 'src/auth';
 import { ROLE } from 'src/users/entities/user.entity';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
@@ -16,29 +16,6 @@ export class AttendeesController {
   create(@Body() createAttendeeDto: CreateAttendeeDto) {
     return this.attendeesService.create(createAttendeeDto);
   }
-
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-    },
-  })
-  @Post("/csv")
-  @UseInterceptors(FileInterceptor('file'))
-  importCsv(@UploadedFile() file: Express.Multer.File) {
-    if(!file){
-      throw new BadRequestException("File not found in form data")
-    }
-    console.log(file)
-    return this.attendeesService.importFromCsv(file.buffer)
-  }
-
 
   @Get()
   findAll() {
@@ -58,5 +35,48 @@ export class AttendeesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.attendeesService.remove(+id);
+  }
+
+  @Get('ischeckedin/:id')
+  isCheckIn(@Param('id') id: string) {
+    return this.attendeesService.isCheckedIn(+id)
+  }
+
+  @Post('/checkin/:id')
+  checkIn(@Param('id') id: string) {
+    return this.attendeesService.checkIn(+id)
+  }
+
+  @Post('/session/checkin')
+  sessionCheckIn(@Body() sessionCheckInDto: SessionCheckInDto) {
+    return this.attendeesService.sessionCheckIn(sessionCheckInDto)
+  }
+
+  @Post('/update/lunch')
+  updateLunch(@Body() updateLunchDto: UpdateLunchDto) {
+    return this.updateLunch(updateLunchDto)
+  }
+
+
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @Post("/csv")
+  @UseInterceptors(FileInterceptor('file'))
+  importCsv(@UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException("File not found in form data")
+    }
+    console.log(file)
+    return this.attendeesService.importFromCsv(file.buffer)
   }
 }
