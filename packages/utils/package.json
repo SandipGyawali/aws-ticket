@@ -1,5 +1,6 @@
 {
     "name": "@aws-ticket/utils",
+    "version": "0.0.1",
     "files": [
         "dist"
     ],
@@ -9,7 +10,7 @@
         "./server": "./server/index.ts"
     },
     "devDependencies": {
-        "@aws-ticket/typescript-config": "*"
+        "@aws-ticket/typescript-config": "workspace:*"
     },
     "dependencies": {
         "clsx": "^2.1.1",

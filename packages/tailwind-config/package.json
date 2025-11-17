@@ -4,9 +4,6 @@
   "main": "tailwind.config.ts",
   "types": "tailwind.config.d.ts",
   "private": true,
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
   "peerDependencies": {
     "typescript": "^5"
   },
