@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAttendeeDto } from './dto/create-attendee.dto';
-import { UpdateAttendeeDto } from './dto/update-attendee.dto';
+import { SessionCheckInDto, UpdateAttendeeDto, UpdateLunchDto } from './dto/update-attendee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Attendee } from './entities/attendee.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +13,109 @@ export class AttendeesService {
   async create(createAttendeeDto: CreateAttendeeDto) {
     const attendee = this.attendeeRepository.create(createAttendeeDto)
     return this.attendeeRepository.save(attendee)
+  }
+
+  async findAll() {
+    return this.attendeeRepository.find()
+  }
+
+  async findOne(id: number) {
+    return this.attendeeRepository.findOneById(id)
+  }
+
+  async update(id: number, updateAttendeeDto: UpdateAttendeeDto) {
+    const attendee = await this.attendeeRepository.findOneById(id)
+    if (!attendee) {
+      throw new NotFoundException(`User with id: ${id} not found`)
+    }
+
+    Object.assign(attendee, updateAttendeeDto)
+    return this.attendeeRepository.save(attendee)
+
+  }
+
+  async remove(id: number) {
+    const attendee = await this.attendeeRepository.findOneById(id)
+    if (!attendee) {
+      throw new NotFoundException(`User with id: ${id} not found`)
+    }
+
+    return this.attendeeRepository.remove(attendee)
+  }
+
+  async checkIn(id: number) {
+    const attendee = await this.findOne(id)
+    if (!attendee) {
+      throw new NotFoundException(`User with id: ${id} not found`)
+    }
+    if (attendee.checked_in == true) {
+      return {
+        success: false,
+        message: `Attendee with email ${attendee.email} already checked.`
+      }
+    }
+
+    attendee.checked_in = true;
+    await this.attendeeRepository.save(attendee)
+    return {
+      success: true,
+      message: `Attendee ${attendee.full_name} checked in.`
+    }
+  }
+
+  async sessionCheckIn(sessionChekInDto: SessionCheckInDto) {
+    const { userId, session } = sessionChekInDto;
+    const attendee = await this.findOne(userId)
+    if (!attendee) {
+      throw new NotFoundException(`User with id: ${userId} not found`)
+    }
+
+    if (attendee.session_choice.includes(session)) {
+      return {
+        success: false,
+        message: `Attendee with email ${attendee.email} already checked in to session: ${session}.`
+      }
+    }
+
+    attendee.session_choice.push(session)
+    await this.attendeeRepository.save(attendee)
+    return {
+      success: true,
+      message: `Attendee ${attendee.full_name} checked in.`
+    }
+  }
+
+  async isCheckIn(id: number) {
+    const attendee = await this.findOne(id)
+    if (!attendee) {
+      throw new NotFoundException(`User with id: ${id} not found`)
+    }
+    return {
+      checkedIn: attendee.checked_in
+    }
+  }
+
+  async updateLunch(updateLunchDto: UpdateLunchDto) {
+    const { userId, lunchId, value } = updateLunchDto;
+    const validLunchIds = [1, 2]
+    const attendee = await this.findOne(userId)
+    if (!attendee) {
+      throw new NotFoundException(`User with id: ${userId} not found`)
+    }
+    if (!validLunchIds.includes(lunchId)) {
+      throw new NotFoundException(`Lunch: ${lunchId} not found`)
+    }
+
+    if (lunchId == 1) {
+      attendee.lunch = value
+    } else {
+      attendee.lunch2 = value
+    }
+    await this.attendeeRepository.save(attendee)
+    return {
+      success: true,
+      message: `Lunch ${lunchId} set to ${value}`
+    }
   }
 
 
@@ -47,6 +150,7 @@ export class AttendeesService {
       errors: errors,
     }
   }
+
   private async filterValidEntry(parsedData: any[]) {
     const validRecords: CreateAttendeeDto[] = []
     const errors: any[] = [];
@@ -104,31 +208,4 @@ export class AttendeesService {
     })
   }
 
-  async findAll() {
-    return this.attendeeRepository.find()
-  }
-
-  async findOne(id: number) {
-    return this.attendeeRepository.findOneById(id)
-  }
-
-  async update(id: number, updateAttendeeDto: UpdateAttendeeDto) {
-    const attendee = await this.attendeeRepository.findOneById(id)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${id} not found`)
-    }
-
-    Object.assign(attendee, updateAttendeeDto)
-    return this.attendeeRepository.save(attendee)
-
-  }
-
-  async remove(id: number) {
-    const attendee = await this.attendeeRepository.findOneById(id)
-    if (!attendee) {
-      throw new NotFoundException(`User with id: ${id} not found`)
-    }
-
-    return this.attendeeRepository.remove(attendee)
-  }
 }
